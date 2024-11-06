@@ -1,0 +1,46 @@
+# Install a wibesite on ubuntu 
+# step1: install nginx
+#       sudo apt install nginx -y
+
+# step2: start the nginx service
+#       sudo systemctl restart nginx.service
+
+# step3: cd /tmp and wget 
+#       wget <url>
+  
+# step4: install unzip
+#       sudo apt install unzip -y
+
+# step5: now unzip the downloaded folder
+#       sudo unzip <folder.zip>
+
+# step6: move the folder to where nginx is present
+#        sudo mv <folderName>/ /var/www/html/(any name)
+
+
+---
+- name: install nginx
+  hosts: all
+  become: yes
+  tasks:
+    - name: install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+  # - name: change directory
+  #   args:
+  #     chdir: /tmp
+    - name: download file
+      ansible.builtin.get_url:
+        url: "https://www.free-css.com/assets/files/free-css-templates/download/page291/gamepad.zip"
+        dest: /tmp/gamepad.zip
+    - name: Unarchive a file
+      ansible.builtin.unarchive:
+        src: /tmp/gamepad.zip
+        dest: /tmp
+        remote_src: yes
+    - name: move the folder to nginx path
+      ansible.builtin.copy:
+        src: /tmp/html/
+        dest: /var/www/html/game
+        remote_src: yes
