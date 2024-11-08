@@ -1,0 +1,31 @@
+# Manual Steps
+# install apache2 on Ubuntu
+  # sudo apt update
+  # sudo apt install apache2 -y
+# install httpd on Redhat
+  # sudo dnf update
+  # sudo dnf install httpd -y
+
+# while Running the playbook put conditions for distrubutions
+# use when : <condition>
+
+---
+- name: install apache2 on different Distrubutions
+  hosts: app
+  become: yes
+  tasks:
+    - name: Installing apache2 on ubuntu
+      ansible.builtin.apt:
+        name:
+         - apache2
+      
+         - unzip
+        state: present
+
+    - name: Installing httpd on redhat
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+
+
+
