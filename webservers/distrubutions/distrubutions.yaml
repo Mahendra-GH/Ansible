@@ -21,7 +21,7 @@
       
          - unzip
         state: present
-
+    when: ansible_facts."ansible_distribution =="ubuntu"
     - name: Installing httpd on redhat
       ansible.builtin.dnf:
         name: httpd
